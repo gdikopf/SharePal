@@ -1,0 +1,47 @@
+#headerNav {
+	position: relative;
+}
+
+#sideBarNav {
+	border: none;
+	background-color: transparent;
+}
+
+#editButton {
+	border: none;
+	background-color: transparent;
+}
+
+#logo {
+	position: relative;
+	vertical-align: center;
+}
+
+#logoPicture {
+	display: block;
+	height: auto;
+	width: 75%;
+	position:relative;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+}
+
+#loginCreate {
+	margin-top: 10%;
+}
+
+#logInButton {
+	position: relative;
+	padding: 10px;
+}
+
+#breaker {
+	width: 75%;
+}
+
+#newAccButton {
+	position: relative;
+	padding: 10px;
+}
+

@@ -1,0 +1,23 @@
+#navBar {
+	position: relative;
+}
+
+#notificationList {
+	position: relative;
+	width: 100%;
+	border: none;
+}
+
+#itemList {
+	border: none;
+}
+
+#listItem {
+	width: 100%;
+	border: none;
+	margin-top: 10%;
+}
+
+#ItemNote {
+	color: #fff;
+}

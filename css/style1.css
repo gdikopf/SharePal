@@ -1,0 +1,52 @@
+#navBar {
+	position: relative;
+}
+
+#backButton {
+	position: relative;
+	padding-bottom: 10px;
+}
+
+#welcome{
+	position: relative;
+	text-align: center;
+	margin-top: 10%;
+}
+
+#inputForm {
+	position: relative;
+	margin-top: 20%;
+}
+
+#usernameInput {
+	border: none;
+	margin-top: 10%;
+}
+
+#unInput {
+	text-align: center;
+	font-size: 24px
+}
+
+#pwInput {
+	text-align: center;
+	font-size: 24px
+}
+
+#passwordInput {
+	border: none;
+	margin-top: 15%;
+}
+
+#submitButton {
+	text-align: center;
+	width: 100%;
+	position: relative;
+	margin-top: 20%;
+	padding: 10px;
+	font-size: 24px;
+}
+
+#buttonLink {
+	text-decoration: none;
+}

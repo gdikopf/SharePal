@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title>SharePal</title>
+
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style3.css" rel="stylesheet">
+
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+  <script src="cordova.js"></script>
+
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
+  <script src="js/simpler-sidebar.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('#sidebar').simplerSidebar({
+            opener: '#toggle-sidebar',
+            sidebar: {
+                align: 'left',
+                width: 300,
+                closingLinks: '.close-sidebar'
+            }
+        });
+    });
+</script>
+
+</head>
+
+<body ng-app="starter">
+<div>
+  <div id="navbar">
+    <div class="bar bar-header bar-positive" id="navBar">
+        <button id="toggle-sidebar" class="button button-icon icon ion-navicon-round"></button>
+          <div class="h1 title">
+            SharePal
+          </div>
+        <a href="add_new_event.html" class="button button-icon icon ion-plus-round" id="addNewEvent">
+        </a>
+      </div>
+    </div>
+    <div class="list" id="eventLister">
+      <a class="item item-icon-left" href="progress.html">
+        <i class="icon ion-minus-round"></i>
+        Ongoing Event
+        <span class="item-note">
+          something/full price
+        </span>
+      </a>
+    </div>
+    <hr id="breaker">
+    <div class="list" id="XeventLister">
+      <a class="item item-icon-left" href="closed_event.html">
+        <i class="icon ion-checkmark-round"></i>
+        Completed Event
+      </a>
+    </div>
+    <div class="list" id="XeventLister">
+      <a class="item item-icon-left" href="closed_event.html">
+        <i class="icon ion-close-round"></i>
+        Not Active Event
+      </a>
+    </div>
+
+
+</div>
+<div id="sidebar">
+  <div id="sidebar-wrapper" class="sidebar-wrapper">
+    <ul class="list">
+      <a href="account.html" id="linkText">
+        <li id="listItem" class="item close-sidebar ion-android-contact">
+          My Account
+        </li>
+      </a>
+      <a href="notifications.html" id="linkText">
+        <li id="listItem" class="item close-sidebar ion-android-notifications">
+          Notifications
+        </li>
+      </a>
+      <a href="welcome.html" id="logOut">
+        <li id="listItem" class="item close-sidebar icon ion-log-out">
+          Log Out
+        </li>
+      </a>
+    </ul>
+  </div>
+</div>
+
+  
+
+
+
+
+  <ion-nav-view></ion-nav-view>
+</body>
+
+</html>

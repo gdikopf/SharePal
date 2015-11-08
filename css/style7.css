@@ -1,0 +1,44 @@
+#navBar {
+  position: relative;
+}
+
+#divider {
+  margin-top: 15%;
+}
+
+#newMember {
+  position: relative;
+  margin-top: 15%;
+}
+
+#payEvent {
+  position: relative;
+  margin-top: 15%;
+}
+
+input {
+  width: 100%;
+}
+
+#submitButton {
+  text-align: center;
+  width: 100%;
+  position: relative;
+  margin-top: 0%;
+  padding: 0px;
+  font-size: 16px;
+}
+
+#addMemberButton {
+  text-decoration: none;
+}
+
+#payEventButton {
+  text-decoration: none;
+}
+
+ #payMeter {
+  position: relative;
+  padding-right: 5%;
+  text-align: right;
+ }

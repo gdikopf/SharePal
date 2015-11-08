@@ -1,0 +1,47 @@
+html {
+  background-image: url(/img/background.png);
+}
+
+.sidebar-wrapper {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+}
+
+#sidebar {
+  position: relative;
+}
+
+#sidebar-wrapper {
+  height: 100%;
+  background-color: #fff;
+}
+
+#listItem {
+  font-size: 30px;
+  margin-top: 25%; 
+  margin-bottom: 25%;
+  border: none;
+}
+
+#linkText {
+  text-decoration: none;
+}
+
+#logOut {
+  margin-top: 25%;
+  text-decoration: none;
+}
+
+#eventLister {
+  position: relative;
+  margin-top: 15%
+}
+
+#XeventLister {
+  position: relative;
+}
+
+#breaker {
+  width: 75%;
+}

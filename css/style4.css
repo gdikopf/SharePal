@@ -1,0 +1,16 @@
+#navBar {
+	position: relative;
+}
+
+#listItem {
+	margin-top: 50px;
+	border: none;
+}
+
+.item {
+	font-size: 20px;
+}
+
+#itemNote {
+	font-size: 24px
+}

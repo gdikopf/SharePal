@@ -1,0 +1,35 @@
+#navBar {
+	position: relative;
+}
+
+#commentBox {
+	position: relative;
+	height: 50%;
+}
+
+.item-select {
+	position: relative;
+	width: 100%
+}
+
+.item-select select {
+  	left: 0%;
+}
+
+option {
+	position: relative;
+	text-align: left;
+}
+
+#submitButton {
+	text-align: center;
+	width: 100%;
+	position: relative;
+	margin-top: 10%;
+	padding: 10px;
+	font-size: 24px;
+}
+
+#createEventButton {
+	text-decoration: none;
+}
