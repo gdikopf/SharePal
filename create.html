@@ -16,6 +16,29 @@
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/services.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script>
+  $(document).ready(function() {
+  $('#submitButton').click(function() {
+    var formData = $("#createUsername").serializeArray();
+    var body = {'users': {'name': formData[0]['value'],
+                          'email': formData[1]['value'],
+                          'phone': formData[2]['value'],
+                          'consumer_id': formData[3]['value']}};
+    console.log(formData);
+    console.log(body);
+    $.ajax({
+      type: "POST",
+      url: "http://10.100.92.178/users",
+      data: JSON.stringify(body),
+      success: function(){},
+      dataType: "json",
+      contentType : "application/json"
+    });
+    return false;
+  });
+});
+  </script>
 </head>
 
 <body ng-app="starter">
@@ -29,26 +52,23 @@
         Create a New Account
       </h1>
     </div>
-    <div id="createUsername">
-      <form>
+    <div id="form">
+      <form id="createUsername">
         Enter a full name:<br>
-        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="name" placeholder="Username">
         <br>
         Enter your email:<br>
         <input type="email" name="email" placeholder="Email">
         <br>
-        Enter your Yoyo Wallet id:<br>
-        <input type="text" name="password" placeholder="Yoyo Wallet id">
-        <br>
         Enter your phone number:<br>
-        <input type="tel" name="password" placeholder="Phone number">
+        <input type="tel" name="phone" placeholder="Phone number">
+        <br>
+        Enter your Yoyo Wallet id:<br>
+        <input type="text" name="consumer_id" placeholder="Yoyo Wallet id">
+        <input id="submitButton" class="button button-full button-calm" type="submit" value="Create Account">
       </form>
     </div>
-    <div>
-      <a href="menu.html" id="createAccountButton">
-        <input id="submitButton" class="button button-full button-calm" type="submit" value="Create Account">
-      </a>
-    </div>
+
   </div>
 
 
