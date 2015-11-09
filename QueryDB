@@ -1,0 +1,216 @@
+from flask import Flask
+
+import json
+import logging
+import flask
+from flask.ext.mysql import MySQL
+from flask import request
+from flask import Response
+
+from flask.ext.cors import CORS
+
+import MySQLdb
+
+app = Flask(__name__)
+mysql = MySQL()	
+ 
+# MySQL configurations
+app.config['MYSQL_DATABASE_USER'] = 'admin'
+app.config['MYSQL_DATABASE_PASSWORD'] = '12345678'
+app.config['MYSQL_DATABASE_DB'] = 'events'
+app.config['MYSQL_DATABASE_HOST'] = 'events.cytrxxmvtjxb.us-west-2.rds.amazonaws.com'
+mysql.init_app(app)
+
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.route("/")
+def hello():
+    logging.info('called root dir')
+    return "Hello World!"
+
+@app.route('/event', methods=['GET'])
+def get_events():
+    conn = mysql.connect()
+    cursor = mysql.connect().cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * from event")
+    data = cursor.fetchall()
+    cursor.close()
+	
+    return json.dumps(data)
+
+
+@app.route('/event', methods=['POST'])
+def create_event():
+	#access request data
+    data = request.get_json()
+    name = data['event']['name']
+    price = int(data['event']['price'])
+    #log to console
+    app.logger.debug('Received new event: {} with price={}'.format(name, price))
+    #mySQL connection
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    try:
+    	#excecute query
+        cursor.execute("INSERT INTO event (name, price)"
+                       "VALUES ('{}', {})".format(name, price))
+        conn.commit()
+    except Exception:
+    	#catches exception
+         app.logger.error('{}{}'.format(e.message, e.args))
+    #id of newly created event
+    event_id = cursor.lastrowid
+    app.logger.info('Event ID: {}'.format(event_id))
+    #prepare the response
+    data['event']['id'] = event_id
+    resp = Response(json.dumps(data), status=200, mimetype='application/json')
+
+    return resp
+
+
+
+
+# 
+#@app.route("/pledges")
+# def pledges():
+#     events = {'pledges': [{'id': 1, 'name': 'pledges no 1'}]}
+#     return flask.jsonify(events)
+
+
+
+# @app.route("/users")
+# def users():
+#     users = {'users': [{'id': 1, 'name': 'users no 1'}]}
+#     return flask.jsonify(users)
+
+
+
+
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    conn = mysql.connect()
+    cursor = mysql.connect().cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * from users")
+    data = cursor.fetchall()
+    cursor.close()
+	
+    return json.dumps(data)
+
+
+@app.route('/users', methods=['POST'])
+def create_user():
+	#access request data
+    app.logger.info(request.data)
+    data = request.get_json()
+    name = data['users']['name']
+    email = data['users']['email']
+    phone = data['users']['phone']
+    consumer_id = data['users']['consumer_id']
+
+    #log to console
+    app.logger.debug('Received new user: {} with email={} phone={} consumer_id={}'.format(name, email, phone, consumer_id))
+    #mySQL connection
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    try:
+    	#excecute query
+        cursor.execute("INSERT INTO users (name, email, phone, consumer_id)"
+                       "VALUES ('{}', '{}', '{}', '{}')".format(name, email, phone, consumer_id))
+        conn.commit()
+    except Exception:
+    	#catches exception
+         app.logger.error('{}{}'.format(e.message, e.args))
+    #id of newly created event
+    user_id = cursor.lastrowid
+    app.logger.info('User ID: {}'.format(user_id))
+    #prepare the response
+    data['users']['id'] = user_id
+    resp = Response(json.dumps(data), status=200, mimetype='application/json')
+
+    return resp
+
+
+@app.route('/pledges', methods=['GET'])
+def get_pledges():
+    user_id = request.args.get('user_id')
+    app.logger.info('Getting list of pledges for user_id={}'.format(user_id))
+    conn = mysql.connect()
+    cursor = mysql.connect().cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT p.id, p.user_id, p.event_id, p.amount pledge_amount, u.name, u.email, u.phone, e.name event_name, e.price event_price\n"
+                   "FROM pledges p\n"
+                   "JOIN users u\n"
+                   "ON p.user_id = u.id\n"
+                   "JOIN event e\n"
+                   "ON p.event_id = e.id\n"
+                   "WHERE p.user_id={}\n"
+                   "order by p.id\n"
+                   "DESC\n"
+                   "LIMIT 1".format(user_id))
+    data = cursor.fetchall()
+    cursor.close()
+	
+    return json.dumps(data)
+
+
+@app.route('/pledges', methods=['POST'])
+def make_connection():
+	#access request data
+    data = request.get_json()
+    event_id = data['event_user']['event_id']
+    user_id = data['event_user']['user_id']
+    pledge_amount = int(data['event_user']['pledge_amount'])
+
+    #log to console
+    app.logger.debug('Received new pledge: {} with user_id={} pledge_amount={}'.format(event_id, user_id, pledge_amount))
+    #mySQL connection
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    try:
+    	#excecute query
+        cursor.execute("INSERT INTO pledges (event_id, user_id, amount)"
+                       "VALUES ('{}', '{}', {})".format(event_id, user_id, pledge_amount))
+        conn.commit()
+    except Exception as e:
+    	#catches exception
+         app.logger.error('{}{}'.format(e.message, e.args))
+    #id of newly created event
+    event_id = cursor.lastrowid
+    app.logger.info('Pledge ID: {}'.format(event_id))
+    #prepare the response
+    data['event_user']['id'] = event_id
+    resp = Response(json.dumps(data), status=200, mimetype='application/json')
+
+    return resp
+
+
+
+
+@app.route('/phone', methods=['GET'])
+def get_numbers():
+    event_id = request.args.get('event_id')
+    app.logger.info('Getting list of numbers for event_id={}'.format(event_id))
+    conn = mysql.connect()
+    cursor = mysql.connect().cursor(MySQLdb.cursors.DictCursor)
+
+    cursor.execute("SELECT p.user_id from pledges p where p.event_id = event_id")
+    data = []               
+
+    user_list= cursor.fetchall()
+    
+    for u_id in user_list:
+    	u_id = u_id["user_id"]
+    	cursor.execute("SELECT u.phone from users u where u.id = " + str(u_id))
+     	num = cursor.fetchall()
+     	data.extend(num)
+    cursor.close()
+	
+    return json.dumps(data)
+
+
+
+
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80, debug=True)
