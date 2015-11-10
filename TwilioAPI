@@ -1,0 +1,76 @@
+
+
+import java.util.*; 
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import com.twilio.sdk.*; 
+import com.twilio.sdk.resource.factory.*; 
+import com.twilio.sdk.resource.instance.*; 
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+
+
+public class twilio_message {
+	
+	// You may want to be more specific in your imports 
+
+	 // Find your Account Sid and Token at twilio.com/user/account 
+	public static final String ACCOUNT_SID = "AC3180896bd92c7cd20faae58322da54bf"; 
+	public static final String AUTH_TOKEN = "2efdd28cd277ac337f2f875654793530"; 
+	public static void sendMessage(String number, String body) throws TwilioRestException{
+		TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN); 
+		 
+		 // Build the parameters 
+		List<NameValuePair> params = new ArrayList<NameValuePair>(); 
+		
+		params.add(new BasicNameValuePair("To", number)); 
+		params.add(new BasicNameValuePair("From", "+441382729313")); 
+		params.add(new BasicNameValuePair("Body", body));   
+	 
+		MessageFactory messageFactory = client.getAccount().getMessageFactory(); 
+		Message message = messageFactory.create(params); 
+		System.out.println(message.getSid()); 
+	}
+	
+	public static void main(String[]args) throws TwilioRestException { 
+		
+		try {
+            URL url = new URL("http://10.100.92.178/phone?event_id=1");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            
+            try {
+                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder out = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    out.append(line);
+                    sendMessage(line.split(" ")[1],"yo");
+                    
+                }
+                System.out.println(out.toString());   //Prints the string content read from input stream
+                reader.close();
+        		
+            }
+            catch (Exception e){
+
+            }
+        } catch (Exception e) {
+
+        }
+	
+
+		
+	 } 
+	
+}
